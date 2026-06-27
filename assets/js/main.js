@@ -102,6 +102,7 @@ function setupContinuousCarousel(carousel) {
   let activePointerId = null;
   let startX = 0;
   let startScrollLeft = 0;
+  let autoScrollPosition = 0;
 
   function calculateLoopWidth() {
     const firstClone = track.children[0];
@@ -112,7 +113,8 @@ function setupContinuousCarousel(carousel) {
     loopWidth = firstOriginal.offsetLeft - firstClone.offsetLeft;
 
     if (!initialized && loopWidth > 0) {
-      viewport.scrollLeft = loopWidth;
+      autoScrollPosition = loopWidth;
+      viewport.scrollLeft = autoScrollPosition;
       initialized = true;
     }
   }
@@ -120,15 +122,20 @@ function setupContinuousCarousel(carousel) {
   function normalizeScrollPosition() {
     if (loopWidth <= 0) return;
 
-    if (viewport.scrollLeft >= loopWidth * 2) {
-      viewport.scrollLeft -= loopWidth;
-    } else if (viewport.scrollLeft < loopWidth * 0.5) {
-      viewport.scrollLeft += loopWidth;
+    autoScrollPosition = viewport.scrollLeft;
+
+    if (autoScrollPosition >= loopWidth * 2) {
+      autoScrollPosition -= loopWidth;
+      viewport.scrollLeft = autoScrollPosition;
+    } else if (autoScrollPosition < loopWidth * 0.5) {
+      autoScrollPosition += loopWidth;
+      viewport.scrollLeft = autoScrollPosition;
     }
   }
 
   function pauseAutoplay() {
     userPaused = true;
+    autoScrollPosition = viewport.scrollLeft;
     window.clearTimeout(resumeTimer);
   }
 
@@ -136,6 +143,7 @@ function setupContinuousCarousel(carousel) {
     window.clearTimeout(resumeTimer);
     resumeTimer = window.setTimeout(() => {
       normalizeScrollPosition();
+      autoScrollPosition = viewport.scrollLeft;
       userPaused = false;
       lastFrameTime = performance.now();
     }, delay);
@@ -152,8 +160,15 @@ function setupContinuousCarousel(carousel) {
       !userPaused &&
       loopWidth > 0
     ) {
-      viewport.scrollLeft += speed * elapsedSeconds;
-      normalizeScrollPosition();
+      autoScrollPosition += speed * elapsedSeconds;
+
+      if (autoScrollPosition >= loopWidth * 2) {
+        autoScrollPosition -= loopWidth;
+      } else if (autoScrollPosition < loopWidth * 0.5) {
+        autoScrollPosition += loopWidth;
+      }
+
+      viewport.scrollLeft = autoScrollPosition;
     }
 
     animationFrameId = window.requestAnimationFrame(animate);
@@ -176,6 +191,7 @@ function setupContinuousCarousel(carousel) {
 
     event.preventDefault();
     viewport.scrollLeft = startScrollLeft - (event.clientX - startX);
+    autoScrollPosition = viewport.scrollLeft;
   }
 
   function endMouseDrag(event) {
@@ -223,6 +239,10 @@ function setupContinuousCarousel(carousel) {
   viewport.addEventListener(
     "scroll",
     () => {
+      if (userPaused || mouseDragging || touchActive) {
+        autoScrollPosition = viewport.scrollLeft;
+      }
+
       if (!userPaused || mouseDragging || touchActive) return;
 
       window.clearTimeout(scrollSettleTimer);
@@ -242,6 +262,7 @@ function setupContinuousCarousel(carousel) {
   window.addEventListener("load", calculateLoopWidth, { once: true });
   reduceMotion.addEventListener?.("change", () => {
     lastFrameTime = performance.now();
+    autoScrollPosition = viewport.scrollLeft;
   });
 
   animationFrameId = window.requestAnimationFrame(animate);
