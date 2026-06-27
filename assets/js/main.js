@@ -81,6 +81,12 @@ function setupContinuousCarousel(carousel) {
   let loopWidth = 0;
   let lastFrameTime = performance.now();
   let animationFrameId = null;
+  let pointerId = null;
+  let pointerIsDown = false;
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let startScrollLeft = 0;
 
   function calculateLoopWidth() {
     const firstOriginal = track.children[0];
@@ -91,20 +97,105 @@ function setupContinuousCarousel(carousel) {
     loopWidth = firstClone.offsetLeft - firstOriginal.offsetLeft;
   }
 
+  function normalizeScrollPosition() {
+    if (loopWidth <= 0) return;
+
+    while (viewport.scrollLeft >= loopWidth) {
+      viewport.scrollLeft -= loopWidth;
+    }
+
+    while (viewport.scrollLeft < 0) {
+      viewport.scrollLeft += loopWidth;
+    }
+  }
+
   function animate(currentTime) {
     const elapsedSeconds = Math.min((currentTime - lastFrameTime) / 1000, 0.1);
     lastFrameTime = currentTime;
 
-    if (!reduceMotion.matches && !document.hidden && loopWidth > 0) {
+    if (
+      !reduceMotion.matches &&
+      !document.hidden &&
+      !pointerIsDown &&
+      loopWidth > 0
+    ) {
       viewport.scrollLeft += speed * elapsedSeconds;
-
-      if (viewport.scrollLeft >= loopWidth) {
-        viewport.scrollLeft -= loopWidth;
-      }
+      normalizeScrollPosition();
     }
 
     animationFrameId = window.requestAnimationFrame(animate);
   }
+
+  function beginPointerInteraction(event) {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    calculateLoopWidth();
+
+    if (loopWidth > 0 && viewport.scrollLeft <= 1) {
+      viewport.scrollLeft = loopWidth;
+    }
+
+    pointerId = event.pointerId;
+    pointerIsDown = true;
+    isDragging = false;
+    startX = event.clientX;
+    startY = event.clientY;
+    startScrollLeft = viewport.scrollLeft;
+    lastFrameTime = performance.now();
+  }
+
+  function movePointer(event) {
+    if (!pointerIsDown || event.pointerId !== pointerId) return;
+
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+
+    if (!isDragging) {
+      const hasHorizontalIntent = Math.abs(deltaX) > 7 && Math.abs(deltaX) > Math.abs(deltaY);
+      const hasVerticalIntent = Math.abs(deltaY) > 7 && Math.abs(deltaY) >= Math.abs(deltaX);
+
+      if (hasVerticalIntent) {
+        endPointerInteraction(event);
+        return;
+      }
+
+      if (!hasHorizontalIntent) return;
+
+      isDragging = true;
+      viewport.classList.add("is-dragging");
+      viewport.setPointerCapture?.(event.pointerId);
+    }
+
+    event.preventDefault();
+    viewport.scrollLeft = startScrollLeft - deltaX;
+
+    if (loopWidth > 0 && viewport.scrollLeft >= loopWidth * 1.5) {
+      viewport.scrollLeft -= loopWidth;
+      startScrollLeft -= loopWidth;
+    }
+  }
+
+  function endPointerInteraction(event) {
+    if (!pointerIsDown) return;
+    if (event?.pointerId !== undefined && event.pointerId !== pointerId) return;
+
+    if (pointerId !== null && viewport.hasPointerCapture?.(pointerId)) {
+      viewport.releasePointerCapture(pointerId);
+    }
+
+    pointerIsDown = false;
+    isDragging = false;
+    pointerId = null;
+    viewport.classList.remove("is-dragging");
+    normalizeScrollPosition();
+    lastFrameTime = performance.now();
+  }
+
+  viewport.addEventListener("pointerdown", beginPointerInteraction);
+  viewport.addEventListener("pointermove", movePointer, { passive: false });
+  viewport.addEventListener("pointerup", endPointerInteraction);
+  viewport.addEventListener("pointercancel", endPointerInteraction);
+  viewport.addEventListener("lostpointercapture", endPointerInteraction);
 
   calculateLoopWidth();
 
