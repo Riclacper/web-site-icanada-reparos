@@ -60,7 +60,7 @@ function setupContinuousCarousel(carousel) {
 
   const originalItems = [...track.children];
 
-  originalItems.forEach((item) => {
+  function createClone(item) {
     const clone = item.cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
 
@@ -72,41 +72,73 @@ function setupContinuousCarousel(carousel) {
       image.alt = "";
     });
 
-    track.appendChild(clone);
+    return clone;
+  }
+
+  const beforeFragment = document.createDocumentFragment();
+  const afterFragment = document.createDocumentFragment();
+
+  originalItems.forEach((item) => {
+    beforeFragment.appendChild(createClone(item));
+    afterFragment.appendChild(createClone(item));
   });
+
+  track.prepend(beforeFragment);
+  track.append(afterFragment);
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const speed = viewport.classList.contains("clients-carousel") ? 28 : 20;
+  const middleStartIndex = originalItems.length;
 
   let loopWidth = 0;
+  let initialized = false;
   let lastFrameTime = performance.now();
   let animationFrameId = null;
-  let pointerId = null;
-  let pointerIsDown = false;
-  let isDragging = false;
+  let resumeTimer = null;
+  let scrollSettleTimer = null;
+  let userPaused = false;
+  let mouseDragging = false;
+  let touchActive = false;
+  let activePointerId = null;
   let startX = 0;
-  let startY = 0;
   let startScrollLeft = 0;
 
   function calculateLoopWidth() {
-    const firstOriginal = track.children[0];
-    const firstClone = track.children[originalItems.length];
+    const firstClone = track.children[0];
+    const firstOriginal = track.children[middleStartIndex];
 
-    if (!firstOriginal || !firstClone) return;
+    if (!firstClone || !firstOriginal) return;
 
-    loopWidth = firstClone.offsetLeft - firstOriginal.offsetLeft;
+    loopWidth = firstOriginal.offsetLeft - firstClone.offsetLeft;
+
+    if (!initialized && loopWidth > 0) {
+      viewport.scrollLeft = loopWidth;
+      initialized = true;
+    }
   }
 
   function normalizeScrollPosition() {
     if (loopWidth <= 0) return;
 
-    while (viewport.scrollLeft >= loopWidth) {
+    if (viewport.scrollLeft >= loopWidth * 2) {
       viewport.scrollLeft -= loopWidth;
-    }
-
-    while (viewport.scrollLeft < 0) {
+    } else if (viewport.scrollLeft < loopWidth * 0.5) {
       viewport.scrollLeft += loopWidth;
     }
+  }
+
+  function pauseAutoplay() {
+    userPaused = true;
+    window.clearTimeout(resumeTimer);
+  }
+
+  function resumeAutoplayAfter(delay = 850) {
+    window.clearTimeout(resumeTimer);
+    resumeTimer = window.setTimeout(() => {
+      normalizeScrollPosition();
+      userPaused = false;
+      lastFrameTime = performance.now();
+    }, delay);
   }
 
   function animate(currentTime) {
@@ -114,9 +146,10 @@ function setupContinuousCarousel(carousel) {
     lastFrameTime = currentTime;
 
     if (
+      initialized &&
       !reduceMotion.matches &&
       !document.hidden &&
-      !pointerIsDown &&
+      !userPaused &&
       loopWidth > 0
     ) {
       viewport.scrollLeft += speed * elapsedSeconds;
@@ -126,76 +159,80 @@ function setupContinuousCarousel(carousel) {
     animationFrameId = window.requestAnimationFrame(animate);
   }
 
-  function beginPointerInteraction(event) {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
+  function beginMouseDrag(event) {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
 
-    calculateLoopWidth();
-
-    if (loopWidth > 0 && viewport.scrollLeft <= 1) {
-      viewport.scrollLeft = loopWidth;
-    }
-
-    pointerId = event.pointerId;
-    pointerIsDown = true;
-    isDragging = false;
+    pauseAutoplay();
+    mouseDragging = true;
+    activePointerId = event.pointerId;
     startX = event.clientX;
-    startY = event.clientY;
     startScrollLeft = viewport.scrollLeft;
-    lastFrameTime = performance.now();
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture?.(event.pointerId);
   }
 
-  function movePointer(event) {
-    if (!pointerIsDown || event.pointerId !== pointerId) return;
-
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
-
-    if (!isDragging) {
-      const hasHorizontalIntent = Math.abs(deltaX) > 7 && Math.abs(deltaX) > Math.abs(deltaY);
-      const hasVerticalIntent = Math.abs(deltaY) > 7 && Math.abs(deltaY) >= Math.abs(deltaX);
-
-      if (hasVerticalIntent) {
-        endPointerInteraction(event);
-        return;
-      }
-
-      if (!hasHorizontalIntent) return;
-
-      isDragging = true;
-      viewport.classList.add("is-dragging");
-      viewport.setPointerCapture?.(event.pointerId);
-    }
+  function moveMouseDrag(event) {
+    if (!mouseDragging || event.pointerId !== activePointerId) return;
 
     event.preventDefault();
-    viewport.scrollLeft = startScrollLeft - deltaX;
-
-    if (loopWidth > 0 && viewport.scrollLeft >= loopWidth * 1.5) {
-      viewport.scrollLeft -= loopWidth;
-      startScrollLeft -= loopWidth;
-    }
+    viewport.scrollLeft = startScrollLeft - (event.clientX - startX);
   }
 
-  function endPointerInteraction(event) {
-    if (!pointerIsDown) return;
-    if (event?.pointerId !== undefined && event.pointerId !== pointerId) return;
+  function endMouseDrag(event) {
+    if (!mouseDragging) return;
+    if (event?.pointerId !== undefined && event.pointerId !== activePointerId) return;
 
-    if (pointerId !== null && viewport.hasPointerCapture?.(pointerId)) {
-      viewport.releasePointerCapture(pointerId);
+    if (activePointerId !== null && viewport.hasPointerCapture?.(activePointerId)) {
+      viewport.releasePointerCapture(activePointerId);
     }
 
-    pointerIsDown = false;
-    isDragging = false;
-    pointerId = null;
+    mouseDragging = false;
+    activePointerId = null;
     viewport.classList.remove("is-dragging");
     normalizeScrollPosition();
-    lastFrameTime = performance.now();
+    resumeAutoplayAfter(750);
   }
 
-  viewport.addEventListener("pointerdown", beginPointerInteraction);
-  viewport.addEventListener("pointermove", movePointer, { passive: false });
-  viewport.addEventListener("pointerup", endPointerInteraction);
-  viewport.addEventListener("pointercancel", endPointerInteraction);
-  viewport.addEventListener("lostpointercapture", endPointerInteraction);
+  viewport.addEventListener("pointerdown", beginMouseDrag);
+  viewport.addEventListener("pointermove", moveMouseDrag, { passive: false });
+  viewport.addEventListener("pointerup", endMouseDrag);
+  viewport.addEventListener("pointercancel", endMouseDrag);
+  viewport.addEventListener("lostpointercapture", endMouseDrag);
+
+  viewport.addEventListener(
+    "touchstart",
+    () => {
+      touchActive = true;
+      pauseAutoplay();
+    },
+    { passive: true },
+  );
+
+  function finishTouchInteraction() {
+    touchActive = false;
+    window.clearTimeout(scrollSettleTimer);
+    scrollSettleTimer = window.setTimeout(() => {
+      normalizeScrollPosition();
+      resumeAutoplayAfter(750);
+    }, 180);
+  }
+
+  viewport.addEventListener("touchend", finishTouchInteraction, { passive: true });
+  viewport.addEventListener("touchcancel", finishTouchInteraction, { passive: true });
+
+  viewport.addEventListener(
+    "scroll",
+    () => {
+      if (!userPaused || mouseDragging || touchActive) return;
+
+      window.clearTimeout(scrollSettleTimer);
+      scrollSettleTimer = window.setTimeout(() => {
+        normalizeScrollPosition();
+        resumeAutoplayAfter(750);
+      }, 180);
+    },
+    { passive: true },
+  );
 
   calculateLoopWidth();
 
@@ -210,9 +247,13 @@ function setupContinuousCarousel(carousel) {
   animationFrameId = window.requestAnimationFrame(animate);
 
   window.addEventListener("pagehide", () => {
+    window.clearTimeout(resumeTimer);
+    window.clearTimeout(scrollSettleTimer);
+
     if (animationFrameId) {
       window.cancelAnimationFrame(animationFrameId);
     }
+
     resizeObserver.disconnect();
   });
 }
