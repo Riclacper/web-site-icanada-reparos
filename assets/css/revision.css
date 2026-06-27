@@ -1,0 +1,295 @@
+:root {
+  --gold-text: #806006;
+}
+
+.eyebrow {
+  color: var(--gold-text);
+}
+
+.clients .eyebrow,
+.contact .eyebrow,
+.cta-card .eyebrow {
+  color: #f4d66c;
+}
+
+.service-card--featured {
+  grid-column: 1 / -1;
+  min-height: 360px;
+}
+
+.service-card--featured img {
+  object-position: center 48%;
+}
+
+.service-card--featured::after {
+  background: linear-gradient(
+    90deg,
+    rgba(7, 9, 12, 0.96) 0%,
+    rgba(7, 9, 12, 0.78) 46%,
+    rgba(7, 9, 12, 0.2) 100%
+  );
+}
+
+.service-card--featured .service-card__content {
+  max-width: 620px;
+  padding: 36px;
+}
+
+.service-card--featured .service-card__content h3 {
+  font-size: clamp(30px, 4vw, 46px);
+}
+
+.service-card--featured .service-card__content p {
+  font-size: 16px;
+}
+
+.carousel-heading {
+  align-items: flex-end;
+}
+
+.carousel-heading > div:first-child {
+  max-width: 790px;
+}
+
+.carousel-controls {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.carousel-controls button {
+  min-width: 46px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-weight: 800;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.carousel-controls button:hover,
+.carousel-controls button:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.carousel-controls--light button {
+  border-color: var(--line);
+  color: var(--ink);
+  background: #ffffff;
+}
+
+.carousel-controls--light button:hover,
+.carousel-controls--light button:focus-visible {
+  background: #f0f0ed;
+}
+
+.carousel-shell {
+  position: relative;
+}
+
+.clients-carousel,
+.reviews-carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-y;
+}
+
+.clients-carousel::-webkit-scrollbar,
+.reviews-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.clients-track,
+.reviews-track {
+  animation: none !important;
+}
+
+.client-card,
+.review-card {
+  scroll-snap-align: start;
+}
+
+.clients-carousel::before,
+.clients-carousel::after,
+.reviews-carousel::before,
+.reviews-carousel::after {
+  display: none;
+}
+
+.review-card blockquote {
+  text-wrap: pretty;
+}
+
+.faq {
+  background: var(--background);
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.faq-intro {
+  position: sticky;
+  top: 118px;
+}
+
+.faq-intro h2 {
+  margin-bottom: 20px;
+}
+
+.faq-intro > p:last-child {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+}
+
+.faq-list details {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 36px rgba(19, 23, 28, 0.05);
+}
+
+.faq-list summary {
+  position: relative;
+  padding: 22px 58px 22px 24px;
+  cursor: pointer;
+  font-weight: 850;
+  line-height: 1.4;
+  list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  color: var(--gold-text);
+  font-size: 24px;
+  content: "+";
+  transform: translateY(-50%);
+}
+
+.faq-list details[open] summary::after {
+  content: "−";
+}
+
+.faq-list details p {
+  padding: 0 24px 22px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.contact-panel a:hover,
+.contact-panel a:focus-visible {
+  color: #f4d66c;
+}
+
+.footer-copy {
+  max-width: 680px;
+  text-align: right;
+}
+
+.footer-copy p,
+.footer-copy small {
+  display: block;
+  margin: 0;
+  color: #8f98a4;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.footer-copy .footer-legal {
+  margin: 6px 0;
+  color: #737c87;
+}
+
+@media (max-width: 1000px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .faq-intro {
+    position: static;
+  }
+
+  .carousel-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .service-card--featured {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .service-card--featured {
+    grid-column: auto;
+    min-height: 410px;
+  }
+
+  .service-card--featured::after {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 9, 12, 0.12) 10%,
+      rgba(7, 9, 12, 0.92) 100%
+    );
+  }
+
+  .service-card--featured .service-card__content {
+    padding: 24px;
+  }
+
+  .carousel-controls {
+    width: 100%;
+  }
+
+  .carousel-controls button {
+    flex: 1;
+  }
+
+  .faq-list summary {
+    padding: 20px 52px 20px 20px;
+  }
+
+  .faq-list summary::after {
+    right: 20px;
+  }
+
+  .faq-list details p {
+    padding: 0 20px 20px;
+  }
+
+  .footer-copy {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-carousel,
+  .reviews-carousel {
+    scroll-behavior: auto;
+  }
+}
