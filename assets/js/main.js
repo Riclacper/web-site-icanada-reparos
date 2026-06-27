@@ -381,6 +381,32 @@ function trackInteraction(eventName, element) {
   });
 }
 
+function setupDeveloperCredit() {
+  const footerCopy = document.querySelector(".footer-copy");
+  if (!footerCopy || footerCopy.querySelector(".footer-credit")) return;
+
+  const credit = document.createElement("p");
+  credit.className = "footer-credit";
+  credit.style.marginTop = "6px";
+
+  const link = document.createElement("a");
+  link.href = "https://portfolio-ricardo-lacerda.vercel.app/";
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = "Ricardo Lacerda";
+  link.dataset.track = "developer_portfolio";
+  link.setAttribute("aria-label", "Acessar o portfólio de Ricardo Lacerda");
+  link.style.color = "#ffffff";
+  link.style.fontWeight = "800";
+  link.style.textDecoration = "underline";
+  link.style.textUnderlineOffset = "3px";
+
+  credit.append("Desenvolvido por ", link);
+  footerCopy.appendChild(credit);
+}
+
+setupDeveloperCredit();
+
 document.querySelectorAll("[data-track]").forEach((element) => {
   element.addEventListener("click", () => {
     trackInteraction(element.dataset.track, element);
