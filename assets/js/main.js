@@ -23,8 +23,23 @@ if (menuButton && navigation) {
     link.addEventListener("click", closeMenu);
   });
 
+  document.addEventListener("pointerdown", (event) => {
+    if (!navigation.classList.contains("is-open")) return;
+
+    const clickedInsideMenu = navigation.contains(event.target);
+    const clickedMenuButton = menuButton.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedMenuButton) {
+      closeMenu();
+    }
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 1000) closeMenu();
   });
 }
 
