@@ -1,20 +1,21 @@
 .clients-carousel,
 .reviews-carousel {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: auto;
   scroll-snap-type: none;
   scrollbar-width: none;
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
   overscroll-behavior-inline: contain;
-  cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-overflow-scrolling: touch;
   will-change: scroll-position;
 }
 
-.clients-carousel.is-dragging,
-.reviews-carousel.is-dragging {
-  cursor: grabbing;
+.clients-carousel::-webkit-scrollbar,
+.reviews-carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .clients-carousel img,
@@ -32,6 +33,18 @@
 .reviews-track {
   display: flex;
   width: max-content;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .clients-carousel,
+  .reviews-carousel {
+    cursor: grab;
+  }
+
+  .clients-carousel.is-dragging,
+  .reviews-carousel.is-dragging {
+    cursor: grabbing;
+  }
 }
 
 .floating-whatsapp {
