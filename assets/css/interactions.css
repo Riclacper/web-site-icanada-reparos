@@ -4,8 +4,23 @@
   scroll-behavior: auto;
   scroll-snap-type: none;
   scrollbar-width: none;
-  touch-action: auto;
+  touch-action: pan-y;
+  overscroll-behavior-inline: contain;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
   will-change: scroll-position;
+}
+
+.clients-carousel.is-dragging,
+.reviews-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.clients-carousel img,
+.reviews-carousel img {
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .client-card,
