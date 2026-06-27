@@ -1,3 +1,9 @@
+const interactionsStylesheet = document.createElement("link");
+interactionsStylesheet.rel = "stylesheet";
+interactionsStylesheet.href = "./assets/css/interactions.css";
+interactionsStylesheet.dataset.interactionsStyles = "true";
+document.head.appendChild(interactionsStylesheet);
+
 const menuButton = document.querySelector("#menu-toggle");
 const navigation = document.querySelector("#site-nav");
 
