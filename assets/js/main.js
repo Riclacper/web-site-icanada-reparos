@@ -43,131 +43,113 @@ if (menuButton && navigation) {
   });
 }
 
-function setupCarousel(carousel) {
+function setupContinuousCarousel(carousel) {
   const viewport = carousel.querySelector("[data-carousel-viewport]");
   const track = viewport?.firstElementChild;
-  const previousButton = carousel.parentElement?.querySelector("[data-carousel-prev]");
-  const nextButton = carousel.parentElement?.querySelector("[data-carousel-next]");
-  const toggleButton = carousel.parentElement?.querySelector("[data-carousel-toggle]");
 
   if (!viewport || !track || track.children.length === 0) return;
+  if (carousel.dataset.continuousCarouselReady === "true") return;
 
-  const items = [...track.children];
-  const intervalDuration = Number(carousel.dataset.interval) || 5000;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  carousel.dataset.continuousCarouselReady = "true";
 
-  let currentIndex = 0;
-  let intervalId = null;
-  let manuallyPaused = reduceMotion.matches;
-  let temporarilyPaused = false;
+  const originalItems = [...track.children];
 
-  function itemOffset(index) {
-    const item = items[index];
-    return item ? item.offsetLeft - track.offsetLeft : 0;
-  }
+  originalItems.forEach((item) => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
 
-  function goTo(index) {
-    currentIndex = (index + items.length) % items.length;
-    viewport.scrollTo({
-      left: itemOffset(currentIndex),
-      behavior: reduceMotion.matches ? "auto" : "smooth",
+    clone.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((element) => {
+      element.setAttribute("tabindex", "-1");
     });
+
+    clone.querySelectorAll("img").forEach((image) => {
+      image.alt = "";
+    });
+
+    track.appendChild(clone);
+  });
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const speed = viewport.classList.contains("clients-carousel") ? 28 : 20;
+
+  let loopWidth = 0;
+  let lastFrameTime = performance.now();
+  let animationFrameId = null;
+
+  function calculateLoopWidth() {
+    const firstOriginal = track.children[0];
+    const firstClone = track.children[originalItems.length];
+
+    if (!firstOriginal || !firstClone) return;
+
+    loopWidth = firstClone.offsetLeft - firstOriginal.offsetLeft;
   }
 
-  function stopAutoplay() {
-    if (intervalId) {
-      window.clearInterval(intervalId);
-      intervalId = null;
+  function animate(currentTime) {
+    const elapsedSeconds = Math.min((currentTime - lastFrameTime) / 1000, 0.1);
+    lastFrameTime = currentTime;
+
+    if (!reduceMotion.matches && !document.hidden && loopWidth > 0) {
+      viewport.scrollLeft += speed * elapsedSeconds;
+
+      if (viewport.scrollLeft >= loopWidth) {
+        viewport.scrollLeft -= loopWidth;
+      }
     }
+
+    animationFrameId = window.requestAnimationFrame(animate);
   }
 
-  function startAutoplay() {
-    stopAutoplay();
+  calculateLoopWidth();
 
-    if (manuallyPaused || temporarilyPaused || document.hidden || reduceMotion.matches) {
-      return;
-    }
+  const resizeObserver = new ResizeObserver(calculateLoopWidth);
+  resizeObserver.observe(track);
 
-    intervalId = window.setInterval(() => {
-      goTo(currentIndex + 1);
-    }, intervalDuration);
-  }
-
-  function updateToggleButton() {
-    if (!toggleButton) return;
-
-    toggleButton.textContent = manuallyPaused ? "Reproduzir" : "Pausar";
-    toggleButton.setAttribute("aria-pressed", String(manuallyPaused));
-  }
-
-  previousButton?.addEventListener("click", () => {
-    goTo(currentIndex - 1);
-    startAutoplay();
-  });
-
-  nextButton?.addEventListener("click", () => {
-    goTo(currentIndex + 1);
-    startAutoplay();
-  });
-
-  toggleButton?.addEventListener("click", () => {
-    manuallyPaused = !manuallyPaused;
-    updateToggleButton();
-    startAutoplay();
-  });
-
-  viewport.addEventListener("mouseenter", () => {
-    temporarilyPaused = true;
-    stopAutoplay();
-  });
-
-  viewport.addEventListener("mouseleave", () => {
-    temporarilyPaused = false;
-    startAutoplay();
-  });
-
-  viewport.addEventListener("focusin", () => {
-    temporarilyPaused = true;
-    stopAutoplay();
-  });
-
-  viewport.addEventListener("focusout", () => {
-    temporarilyPaused = false;
-    startAutoplay();
-  });
-
-  viewport.addEventListener(
-    "scroll",
-    () => {
-      window.clearTimeout(viewport.carouselScrollTimer);
-      viewport.carouselScrollTimer = window.setTimeout(() => {
-        const closestIndex = items.reduce(
-          (bestIndex, item, index) => {
-            const bestDistance = Math.abs(itemOffset(bestIndex) - viewport.scrollLeft);
-            const currentDistance = Math.abs(itemOffset(index) - viewport.scrollLeft);
-            return currentDistance < bestDistance ? index : bestIndex;
-          },
-          0,
-        );
-
-        currentIndex = closestIndex;
-      }, 100);
-    },
-    { passive: true },
-  );
-
-  document.addEventListener("visibilitychange", startAutoplay);
+  window.addEventListener("load", calculateLoopWidth, { once: true });
   reduceMotion.addEventListener?.("change", () => {
-    manuallyPaused = reduceMotion.matches;
-    updateToggleButton();
-    startAutoplay();
+    lastFrameTime = performance.now();
   });
 
-  updateToggleButton();
-  startAutoplay();
+  animationFrameId = window.requestAnimationFrame(animate);
+
+  window.addEventListener("pagehide", () => {
+    if (animationFrameId) {
+      window.cancelAnimationFrame(animationFrameId);
+    }
+    resizeObserver.disconnect();
+  });
 }
 
-document.querySelectorAll("[data-carousel]").forEach(setupCarousel);
+document.querySelectorAll("[data-carousel]").forEach(setupContinuousCarousel);
+
+function setupBackToTopButton() {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "back-to-top";
+  button.setAttribute("aria-label", "Voltar ao topo da página");
+  button.setAttribute("title", "Voltar ao topo");
+  button.innerHTML = '<span aria-hidden="true">↑</span>';
+
+  document.body.appendChild(button);
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function updateButtonVisibility() {
+    button.classList.toggle("is-visible", window.scrollY > 500);
+  }
+
+  button.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion.matches ? "auto" : "smooth",
+    });
+  });
+
+  window.addEventListener("scroll", updateButtonVisibility, { passive: true });
+  updateButtonVisibility();
+}
+
+setupBackToTopButton();
 
 const navigationLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
 const sections = navigationLinks
