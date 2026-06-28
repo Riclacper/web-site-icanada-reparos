@@ -1,3 +1,7 @@
+#inicio {
+  scroll-margin-top: 160px;
+}
+
 .clients-carousel,
 .reviews-carousel {
   overflow-x: auto;
