@@ -4,6 +4,24 @@ interactionsStylesheet.href = "./assets/css/interactions.css";
 interactionsStylesheet.dataset.interactionsStyles = "true";
 document.head.appendChild(interactionsStylesheet);
 
+const headlineFontStylesheet = document.createElement("link");
+headlineFontStylesheet.rel = "stylesheet";
+headlineFontStylesheet.href =
+  "https://fonts.googleapis.com/css2?family=Sora:wght@700;800&display=swap";
+document.head.appendChild(headlineFontStylesheet);
+
+const headlineStyles = document.createElement("style");
+headlineStyles.textContent = `
+  .hero h1 {
+    font-family: "Sora", "Manrope", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+`;
+document.head.appendChild(headlineStyles);
+
 const menuButton = document.querySelector("#menu-toggle");
 const navigation = document.querySelector("#site-nav");
 
@@ -335,6 +353,11 @@ function setupFloatingWhatsAppIcon() {
 }
 
 setupFloatingWhatsAppIcon();
+
+const experienceItem = document.querySelector(".hero-points li:last-child");
+if (experienceItem) {
+  experienceItem.textContent = "Mais de 7 anos de experiência";
+}
 
 const navigationLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
 const sections = navigationLinks
