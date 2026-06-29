@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const input = "assets/img/favicon.svg";
-const outputDir = "public/favicons";
+const outputDir = "favicons";
 
 await fs.mkdir(outputDir, { recursive: true });
 
