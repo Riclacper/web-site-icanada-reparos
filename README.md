@@ -25,6 +25,19 @@ Publicação imediata autorizada pelo responsável em **24/10/2026**, incluindo 
 - destaque automático da seção ativa no menu;
 - estrutura compatível com hospedagem estática e Vercel.
 
+### Banner temporário da mudança
+
+Aviso amarelo no topo, com referência ao Banco do Brasil na Avenida Beberibe e botão **Confira a localização** para a seção `#contato`. O banner acompanha a identidade visual e se adapta a celulares.
+
+| Período no horário de Recife (UTC−03:00) | Mensagem |
+| --- | --- |
+| 24 e 25/10/2026 | Segunda-feira, 26/10: começamos no novo endereço! |
+| 26/10, de 00h até antes das 09h | É hoje! Atendimento no novo endereço a partir das 09h. |
+| 26/10 às 09h até o fim de 01/11 | Já estamos atendendo no novo endereço. Confira! |
+| A partir de 02/11 às 00h | Banner oculto automaticamente. |
+
+A lógica está em `assets/js/relocation-banner.js`, com instantes definidos em UTC−03:00. A mensagem muda sem novo deploy, inclusive em uma aba que permaneça aberta ou seja retomada. O relógio do dispositivo determina o instante atual. O aviso começa oculto e só é exibido após calcular o período; sem JavaScript, as informações permanentes de contato e a data de início continuam disponíveis na página. O banner não representa o status “aberto agora” nem altera os horários, endereço ou dados estruturados do site.
+
 ## Tecnologias
 
 - HTML5;
