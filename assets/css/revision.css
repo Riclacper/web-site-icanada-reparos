@@ -173,6 +173,36 @@
   color: #f4d66c;
 }
 
+.contact-landmark {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding: clamp(20px, 3vw, 28px);
+  border-left: 5px solid #ffffff;
+  border-radius: 18px;
+  color: #0b0d10;
+  background: var(--yellow);
+}
+
+.contact-landmark__label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-landmark strong {
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.contact-landmark > span:last-child {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
 .site-footer {
   padding: 24px 0;
 }

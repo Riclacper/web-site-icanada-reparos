@@ -8,7 +8,7 @@ O projeto apresenta os principais serviços da empresa, diferenciais técnicos, 
 
 Site oficial: https://icanadareparos.com.br/. O repositório de produção é `Riclacper/web-site-icanada-reparos`, com deploy contínuo pela Vercel a partir da branch `main`.
 
-Esta atualização de endereço deve entrar em produção somente em **26/10/2026, segunda-feira**, data de início do atendimento na nova unidade. Até essa data, manter a alteração em uma branch separada e o pull request em rascunho, sem auto-merge.
+Publicação imediata autorizada pelo responsável em **24/10/2026**, incluindo endereço, horários e rota. O início do atendimento na nova unidade permanece em **26/10/2026, segunda-feira**, informado no site. O agendamento anterior para publicar em 26/10 foi desativado.
 
 ## Principais recursos
 
@@ -20,7 +20,7 @@ Esta atualização de endereço deve entrar em produção somente em **26/10/202
 - carrossel automático com avaliações de clientes;
 - imagens armazenadas localmente no projeto;
 - botões de contato direto pelo WhatsApp;
-- endereço completo, ponto de referência e orientações de chegada pelo WhatsApp;
+- endereço completo, ponto de referência em destaque e rota pelo Google Maps;
 - menu responsivo com navegação por âncoras;
 - destaque automático da seção ativa no menu;
 - estrutura compatível com hospedagem estática e Vercel.
@@ -86,13 +86,12 @@ Cada novo `push` ou merge na branch `main` gera uma nova publicação pela integ
 
 ### Publicação da mudança de endereço
 
-1. Manter a atualização na branch `update/endereco-encruzilhada-2026-10-26`, sem merge antecipado.
-2. Em 26/10/2026 pela manhã, no horário de Recife (UTC−03:00), conferir o diff do pull request e o resultado da prévia da Vercel. O horário de abertura já informado pelo site é 10h; os horários comerciais não foram alterados nesta atualização.
-3. Retirar o pull request do rascunho e fazer merge em `main` somente nessa data, após as verificações. Não habilitar auto-merge antes dela.
-4. Aguardar o deploy de produção e verificar https://icanadareparos.com.br/ e o redirecionamento de https://www.icanadareparos.com.br/.
-5. Conferir o resumo de localização, a seção de contato, o ponto de referência, o JSON-LD `LocalBusiness` e os botões de chegada. Não considerar a publicação concluída apenas porque o merge terminou.
+1. Conferir o diff do pull request da branch `update/endereco-encruzilhada-2026-10-26` e o resultado da prévia da Vercel.
+2. Fazer merge em `main` após as verificações, conforme a autorização de publicação imediata de 24/10/2026.
+3. Aguardar o deploy de produção e verificar https://icanadareparos.com.br/ e o redirecionamento de https://www.icanadareparos.com.br/.
+4. Conferir os horários no topo, contato e JSON-LD `LocalBusiness`, a data de início, o destaque do ponto de referência e o destino do botão “Como chegar”. Não considerar a publicação concluída apenas porque o merge terminou.
 
-O agendamento operacional é externo ao HTML. Não há troca de endereço pelo relógio do navegador: o merge publica os textos visíveis e os dados estruturados juntos, inclusive para visitantes sem JavaScript e mecanismos de busca.
+Não há troca de endereço pelo relógio do navegador: o merge publica os textos visíveis e os dados estruturados juntos, inclusive para visitantes sem JavaScript e mecanismos de busca.
 
 ### Identificação do projeto de produção
 
@@ -105,11 +104,11 @@ Verificação em 24/10/2026, antes desta alteração:
 
 ## Atualizar o projeto
 
-Prepare alterações em uma branch e abra um pull request para `main`. Para esta mudança, respeite a data de publicação acima.
+Prepare alterações em uma branch e abra um pull request para `main`.
 
 ```bash
 git switch -c atualizacao-site
-git add index.html README.md
+git add index.html README.md assets/css/revision.css
 git commit -m "Descreva a alteração realizada"
 git push -u origin atualizacao-site
 ```
@@ -127,7 +126,7 @@ git push -u origin atualizacao-site
 ## Links
 
 - Site oficial: https://icanadareparos.com.br/
-- Orientações de chegada: https://wa.me/5581981263655
+- Como chegar: https://www.google.com/maps/dir/?api=1&destination=Rua+Frederico%2C+15+-+Encruzilhada%2C+Recife+-+PE%2C+Brasil
 - Instagram: https://www.instagram.com/icanadareparos
 - Facebook: https://www.facebook.com/icanadareparosapple/
 
@@ -137,14 +136,16 @@ git push -u origin atualizacao-site
 - E-mail: icanadareparos@gmail.com
 - Endereço a partir de 26/10/2026: Rua Frederico, nº 15, sala 03, Encruzilhada, Recife — PE
 - Ponto de referência: Avenida Beberibe, em frente ao Banco do Brasil
+- Horário de segunda a sexta: 09h–12h / 14h–17:30
+- Horário de sábado: 09h–13h
 
 ### Google Maps e CEP
 
-O atalho anterior do Google Maps foi consultado em 24/10/2026 e redirecionava para um cadastro existente da empresa, sem confirmação da nova unidade. Nenhuma URL do Maps, coordenada ou CEP para o novo endereço foi inventada.
+O botão “Como chegar” e o `hasMap` usam o formato oficial [Maps URLs — Directions](https://developers.google.com/maps/documentation/urls/get-started#directions-action), com o novo endereço como destino. O link foi aberto no Google Maps em 24/10/2026 e o destino foi reconhecido como **R. Frederico, 15 — Encruzilhada, Recife — PE**. A origem é definida pelo visitante; nenhum identificador de estabelecimento ou coordenada foi inventado. A sala 03 permanece indicada no endereço do site.
 
-Enquanto o novo destino não for validado, os atalhos antigos e a propriedade `hasMap` foram removidos. O botão de chegada usa o WhatsApp já existente, e o botão após as avaliações leva à seção de contato. O CEP anterior também foi removido do texto e do JSON-LD.
+O atalho antigo do Maps foi removido. O botão após as avaliações leva à seção de contato, que destaca **Em frente ao Banco do Brasil — Avenida Beberibe** acima do endereço. O CEP anterior também foi removido do texto e do JSON-LD; um novo CEP não foi incluído.
 
-Quando houver um link compartilhado e confirmado da nova unidade, verificar o nome da empresa, rua, número, bairro e posição do marcador antes de incluí-lo nos botões, no `hasMap` e nesta documentação. A alteração deste site não atualiza automaticamente o Perfil da Empresa no Google.
+A rota utiliza o endereço do imóvel e não depende da atualização do cadastro comercial. A alteração deste site não atualiza automaticamente o Perfil da Empresa no Google.
 
 ## Observação legal
 
