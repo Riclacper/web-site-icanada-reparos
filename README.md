@@ -6,7 +6,9 @@ O projeto apresenta os principais serviços da empresa, diferenciais técnicos, 
 
 ## Status do projeto
 
-Versão atual aprovada para publicação e preparada para deploy contínuo pela Vercel a partir da branch `main`.
+Site oficial: https://icanadareparos.com.br/. O repositório de produção é `Riclacper/web-site-icanada-reparos`, com deploy contínuo pela Vercel a partir da branch `main`.
+
+Publicação imediata autorizada pelo responsável em **24/10/2026**, incluindo endereço, horários e rota. O início do atendimento na nova unidade permanece em **26/10/2026, segunda-feira**, informado no site. O agendamento anterior para publicar em 26/10 foi desativado.
 
 ## Principais recursos
 
@@ -18,7 +20,7 @@ Versão atual aprovada para publicação e preparada para deploy contínuo pela 
 - carrossel automático com avaliações de clientes;
 - imagens armazenadas localmente no projeto;
 - botões de contato direto pelo WhatsApp;
-- localização exata pelo Google Maps;
+- endereço completo, ponto de referência em destaque e rota pelo Google Maps;
 - menu responsivo com navegação por âncoras;
 - destaque automático da seção ativa no menu;
 - estrutura compatível com hospedagem estática e Vercel.
@@ -80,16 +82,35 @@ Output Directory: vazio
 Production Branch: main
 ```
 
-Cada novo `push` na branch `main` gera uma nova publicação automaticamente após a integração com a Vercel.
+Cada novo `push` ou merge na branch `main` gera uma nova publicação pela integração com a Vercel. Uma prévia de branch não substitui a publicação no domínio oficial.
+
+### Publicação da mudança de endereço
+
+1. Conferir o diff do pull request da branch `update/endereco-encruzilhada-2026-10-26` e o resultado da prévia da Vercel.
+2. Fazer merge em `main` após as verificações, conforme a autorização de publicação imediata de 24/10/2026.
+3. Aguardar o deploy de produção e verificar https://icanadareparos.com.br/ e o redirecionamento de https://www.icanadareparos.com.br/.
+4. Conferir os horários no topo, contato e JSON-LD `LocalBusiness`, a data de início, o destaque do ponto de referência e o destino do botão “Como chegar”. Não considerar a publicação concluída apenas porque o merge terminou.
+
+Não há troca de endereço pelo relógio do navegador: o merge publica os textos visíveis e os dados estruturados juntos, inclusive para visitantes sem JavaScript e mecanismos de busca.
+
+### Identificação do projeto de produção
+
+Verificação em 24/10/2026, antes desta alteração:
+
+- `main` estava no commit `6556c5b9f385b6f52bb6f5adbf87e0823e4bf516`, com status de deploy da Vercel concluído.
+- O HTML de https://web-site-icanada-reparos.vercel.app/ era idêntico ao `index.html` desse commit (SHA-256 `1b4d54ebb0a431f35f022f7db0fd239c6cfecb1970326a229f6f5bdb73b24ecb`).
+- O HTML do domínio oficial correspondia ao mesmo arquivo, com apenas a proteção de e-mail injetada pelo Cloudflare; a resposta também apresentava cabeçalhos da Vercel.
+- `Riclacper/site-icanada-reparos` contém uma implementação anterior em Bootstrap/PWA, diferente da versão servida pelo domínio. Não utilizar esse repositório para publicar esta mudança.
 
 ## Atualizar o projeto
 
-Depois de realizar alterações:
+Prepare alterações em uma branch e abra um pull request para `main`.
 
 ```bash
-git add .
+git switch -c atualizacao-site
+git add index.html README.md assets/css/revision.css
 git commit -m "Descreva a alteração realizada"
-git push origin main
+git push -u origin atualizacao-site
 ```
 
 ## Seções do site
@@ -104,8 +125,8 @@ git push origin main
 
 ## Links
 
-- Site oficial: https://www.icanadareparos.com.br/
-- Google Maps: https://maps.app.goo.gl/oAd79UCf6wUcLeQv5
+- Site oficial: https://icanadareparos.com.br/
+- Como chegar: https://www.google.com/maps/dir/?api=1&destination=Rua+Frederico%2C+15+-+Encruzilhada%2C+Recife+-+PE%2C+Brasil
 - Instagram: https://www.instagram.com/icanadareparos
 - Facebook: https://www.facebook.com/icanadareparosapple/
 
@@ -113,7 +134,18 @@ git push origin main
 
 - WhatsApp: +55 81 98126-3655
 - E-mail: icanadareparos@gmail.com
-- Endereço: Rua João Tude de Melo, 77, sala 23, Parnamirim, Recife — PE
+- Endereço a partir de 26/10/2026: Rua Frederico, nº 15, sala 03, Encruzilhada, Recife — PE
+- Ponto de referência: Avenida Beberibe, em frente ao Banco do Brasil
+- Horário de segunda a sexta: 09h–12h / 14h–17:30
+- Horário de sábado: 09h–13h
+
+### Google Maps e CEP
+
+O botão “Como chegar” e o `hasMap` usam o formato oficial [Maps URLs — Directions](https://developers.google.com/maps/documentation/urls/get-started#directions-action), com o novo endereço como destino. O link foi aberto no Google Maps em 24/10/2026 e o destino foi reconhecido como **R. Frederico, 15 — Encruzilhada, Recife — PE**. A origem é definida pelo visitante; nenhum identificador de estabelecimento ou coordenada foi inventado. A sala 03 permanece indicada no endereço do site.
+
+O atalho antigo do Maps foi removido. O botão após as avaliações leva à seção de contato, que destaca **Em frente ao Banco do Brasil — Avenida Beberibe** acima do endereço. O CEP anterior também foi removido do texto e do JSON-LD; um novo CEP não foi incluído.
+
+A rota utiliza o endereço do imóvel e não depende da atualização do cadastro comercial. A alteração deste site não atualiza automaticamente o Perfil da Empresa no Google.
 
 ## Observação legal
 
