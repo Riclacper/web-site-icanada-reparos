@@ -1227,3 +1227,15 @@ h2 {
 .service-guides__links{display:flex;flex-wrap:wrap;gap:10px}
 .service-guides__links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 15px;border-radius:10px;background:#0b0d10;color:#fff;text-decoration:none;font-weight:700;font-size:14px}
 .service-guides__links a:hover,.service-guides__links a:focus-visible{background:#333a44;outline-offset:3px}
+
+/* Grade editorial de serviços: cartões alinhados e responsivos */
+.service-guides{margin:0 0 32px;padding:clamp(22px,3vw,38px);border:1px solid #e4e5e2;border-radius:22px;background:#fff}
+.service-guides h3{font-size:clamp(22px,2.4vw,30px);line-height:1.2;margin:0 0 9px}
+.service-guides p{margin:0 0 24px;color:#69717c}
+.service-guides__links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.service-guides__links a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:82px;padding:18px 18px;border:1px solid #252a30;border-radius:14px;background:#101216;color:#fff;text-decoration:none;font-weight:750;font-size:14px;line-height:1.4;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.service-guides__links a::after{content:"↗";flex:none;color:#f3bd20;font-size:21px;font-weight:700}
+.service-guides__links a:hover{background:#22272f;border-color:#f3bd20;transform:translateY(-2px)}
+.service-guides__links a:focus-visible{outline:3px solid #f3bd20;outline-offset:3px}
+@media(max-width:1050px){.service-guides__links{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.service-guides__links{grid-template-columns:1fr;gap:9px}.service-guides__links a{min-height:62px;padding:14px 16px}.service-guides{padding:20px}}
