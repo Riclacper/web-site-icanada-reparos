@@ -26,3 +26,15 @@
 .service-gallery img{display:block;width:100%;height:300px;object-fit:cover}
 .service-gallery figcaption{padding:15px 18px;font-size:14px;line-height:1.5;color:#343b43}
 @media(max-width:700px){.service-gallery{grid-template-columns:1fr}.service-gallery img{height:250px}}
+
+/* Interação sutil nas fotografias das galerias */
+.service-gallery figure{position:relative;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.service-gallery figure img{transition:transform .45s cubic-bezier(.2,.75,.3,1),filter .35s ease;transform-origin:center center}
+@media(hover:hover) and (pointer:fine){
+  .service-gallery figure:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(11,13,16,.14);border-color:#f3bd20}
+  .service-gallery figure:hover img{transform:scale(1.045);filter:contrast(1.035) saturate(1.04)}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-gallery figure,.service-gallery figure img{transition:none!important}
+  .service-gallery figure:hover,.service-gallery figure:hover img{transform:none!important}
+}
