@@ -796,7 +796,7 @@ h2 {
 }
 
 .cta-section {
-  padding: 0 0 92px;
+  padding: 92px 0;
   background: #ffffff;
 }
 
@@ -1189,7 +1189,7 @@ h2 {
   }
 
   .cta-section {
-    padding-bottom: 64px;
+    padding: 64px 0;
   }
 
   .cta-card {
