@@ -416,9 +416,9 @@ function setupDeveloperCredit() {
   link.href = "https://portfolio-ricardo-lacerda.vercel.app/";
   link.target = "_blank";
   link.rel = "noopener noreferrer";
-  link.textContent = "Ricardo Lacerda";
+  link.textContent = "RLP";
   link.dataset.track = "developer_portfolio";
-  link.setAttribute("aria-label", "Acessar o portfólio de Ricardo Lacerda");
+  link.setAttribute("aria-label", "Acessar o portfólio de RLP");
   link.style.color = "#ffffff";
   link.style.fontWeight = "800";
   link.style.textDecoration = "underline";
