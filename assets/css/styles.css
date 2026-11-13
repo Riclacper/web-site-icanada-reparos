@@ -703,10 +703,14 @@ h2 {
 }
 
 /* Ajustes por logomarca: preserva legibilidade em fundos e contrastes distintos. */
-.client-card img[src$="/ORBE.webp"],
 .client-card img[src$="/andre.webp"],
 .client-card img[src$="/cliente-mauna.webp"] {
   filter: grayscale(1) brightness(2.4) contrast(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.22));
+}
+
+/* ORBE: transforma os elementos escuros em branco nítido sem alterar o arquivo original. */
+.client-card img[src$="/ORBE.webp"] {
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.18));
 }
 
 .client-card img[src$="/UFPE.webp"] {
@@ -729,10 +733,13 @@ h2 {
 }
 
 @media (hover: hover) {
-  .client-card:hover img[src$="/ORBE.webp"],
   .client-card:hover img[src$="/andre.webp"],
   .client-card:hover img[src$="/cliente-mauna.webp"] {
     filter: grayscale(1) brightness(2.6) contrast(1.2) drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+  }
+
+  .client-card:hover img[src$="/ORBE.webp"] {
+    filter: brightness(0) invert(1) drop-shadow(0 0 7px rgba(255, 255, 255, 0.3));
   }
 
   .client-card:hover img[src$="/UFPE.webp"] {
