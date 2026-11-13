@@ -513,9 +513,12 @@ h2 {
 }
 
 .specialty-image img {
+  display: block;
   width: 100%;
   aspect-ratio: 1.35;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
 }
 
 .specialty-copy h2 {
