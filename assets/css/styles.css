@@ -450,11 +450,23 @@ h2 {
   inset: 0;
   background: linear-gradient(
     180deg,
-    transparent 25%,
-    rgba(7, 9, 12, 0.25) 52%,
-    rgba(7, 9, 12, 0.94) 100%
+    rgba(7, 9, 12, 0.08) 0%,
+    rgba(7, 9, 12, 0.24) 42%,
+    rgba(7, 9, 12, 0.68) 72%,
+    rgba(7, 9, 12, 0.96) 100%
   );
   content: "";
+}
+
+/* Reforço específico para a fotografia clara do cartão macOS. */
+.service-card--macos::after {
+  background: linear-gradient(
+    180deg,
+    rgba(7, 9, 12, 0.15) 0%,
+    rgba(7, 9, 12, 0.42) 42%,
+    rgba(7, 9, 12, 0.84) 75%,
+    rgba(7, 9, 12, 0.98) 100%
+  );
 }
 
 .service-card:hover img {
@@ -488,7 +500,7 @@ h2 {
 
 .service-card__content p {
   margin-bottom: 0;
-  color: #c7ccd2;
+  color: #e0e3e8;
   font-size: 14px;
   line-height: 1.6;
 }
