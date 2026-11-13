@@ -709,9 +709,19 @@ h2 {
   filter: grayscale(1) brightness(2.4) contrast(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.22));
 }
 
-.client-card img[src$="/cliente-aporte.webp"],
 .client-card img[src$="/UFPE.webp"] {
   filter: grayscale(1) brightness(1.1) contrast(1.05);
+}
+
+/* Aporte: fundo claro exclusivo para preservar o símbolo e o nome escuros. */
+.client-card img[src$="/cliente-aporte.webp"] {
+  box-sizing: border-box;
+  max-width: 120px;
+  max-height: 64px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  background: #f5f5f3;
+  filter: grayscale(1) contrast(1.25);
 }
 
 .client-card img[src$="/cliente-makplan.webp"] {
@@ -725,9 +735,12 @@ h2 {
     filter: grayscale(1) brightness(2.6) contrast(1.2) drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
   }
 
-  .client-card:hover img[src$="/cliente-aporte.webp"],
   .client-card:hover img[src$="/UFPE.webp"] {
     filter: grayscale(1) brightness(1.2) contrast(1.08);
+  }
+
+  .client-card:hover img[src$="/cliente-aporte.webp"] {
+    filter: grayscale(1) contrast(1.35);
   }
 
   .client-card:hover img[src$="/cliente-makplan.webp"] {
