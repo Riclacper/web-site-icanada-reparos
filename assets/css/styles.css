@@ -702,6 +702,39 @@ h2 {
   }
 }
 
+/* Ajustes por logomarca: preserva legibilidade em fundos e contrastes distintos. */
+.client-card img[src$="/ORBE.webp"],
+.client-card img[src$="/andre.webp"],
+.client-card img[src$="/cliente-mauna.webp"] {
+  filter: grayscale(1) brightness(2.4) contrast(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.22));
+}
+
+.client-card img[src$="/cliente-aporte.webp"],
+.client-card img[src$="/UFPE.webp"] {
+  filter: grayscale(1) brightness(1.1) contrast(1.05);
+}
+
+.client-card img[src$="/cliente-makplan.webp"] {
+  filter: grayscale(1) brightness(1.9) contrast(1.12) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+@media (hover: hover) {
+  .client-card:hover img[src$="/ORBE.webp"],
+  .client-card:hover img[src$="/andre.webp"],
+  .client-card:hover img[src$="/cliente-mauna.webp"] {
+    filter: grayscale(1) brightness(2.6) contrast(1.2) drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+  }
+
+  .client-card:hover img[src$="/cliente-aporte.webp"],
+  .client-card:hover img[src$="/UFPE.webp"] {
+    filter: grayscale(1) brightness(1.2) contrast(1.08);
+  }
+
+  .client-card:hover img[src$="/cliente-makplan.webp"] {
+    filter: grayscale(1) brightness(2.1) contrast(1.12) drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .client-card,
   .client-card img {
