@@ -1324,14 +1324,6 @@ h2 {
   }
 }
 
-/* Links internos para os guias de serviços */
-.service-guides{margin:0 0 28px;padding:24px;border:1px solid #e4e5e2;border-radius:18px;background:#fff}
-.service-guides h3{margin:0 0 8px;font-size:clamp(20px,2.5vw,26px)}
-.service-guides p{margin:0 0 18px;color:#69717c}
-.service-guides__links{display:flex;flex-wrap:wrap;gap:10px}
-.service-guides__links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 15px;border-radius:10px;background:#0b0d10;color:#fff;text-decoration:none;font-weight:700;font-size:14px}
-.service-guides__links a:hover,.service-guides__links a:focus-visible{background:#333a44;outline-offset:3px}
-
 /* Grade editorial de serviços: cartões alinhados e responsivos */
 .service-guides{margin:0 0 32px;padding:clamp(22px,3vw,38px);border:1px solid #e4e5e2;border-radius:22px;background:#fff}
 .service-guides h3{font-size:clamp(22px,2.4vw,30px);line-height:1.2;margin:0 0 9px}
@@ -1348,8 +1340,6 @@ h2 {
 .service-guides--categorized{padding:clamp(22px,3vw,38px)}
 .service-guides--categorized .service-guides__groups{display:grid;gap:22px}
 .service-guides--categorized .service-guides__group{padding:22px;border-radius:18px;background:#101419;color:#fff}
-.service-guides--categorized .service-guides__group h4{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:20px;font-weight:800;color:#fff}
-.service-guides--categorized .service-guides__group h4 span{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(243,189,32,.35);border-radius:9px;color:#f3bd20;font-size:23px;line-height:1}
 .service-guides--categorized .service-guides__links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .service-guides--categorized .service-guides__links a{min-height:68px;padding:16px 18px;background:#22272e;border:1px solid #353b44;color:#fff;border-radius:12px;font-size:14px;line-height:1.4;box-shadow:none}
 .service-guides--categorized .service-guides__links a:hover{background:#2c333c;border-color:#f3bd20;transform:translateY(-2px)}
