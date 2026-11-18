@@ -465,3 +465,8 @@
   .service-guides--categorized details.service-guides__group>.service-guides__links{gap:10px}
   .service-guides--categorized details.service-guides__group>.service-guides__links a{min-height:58px;padding:12px 14px}
 }
+
+/* Mantém a posição mobile dos botões acima das regras históricas. */
+@media (max-width: 680px) {
+  .floating-whatsapp { right: 12px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); padding: 0; }
+}

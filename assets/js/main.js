@@ -1,6 +1,6 @@
 const interactionsStylesheet = document.createElement("link");
 interactionsStylesheet.rel = "stylesheet";
-interactionsStylesheet.href = "./assets/css/interactions.css";
+interactionsStylesheet.href = "./assets/css/interactions.css?v=20261118-audit12";
 interactionsStylesheet.dataset.interactionsStyles = "true";
 document.head.appendChild(interactionsStylesheet);
 
