@@ -38,3 +38,16 @@
   .service-gallery figure,.service-gallery figure img{transition:none!important}
   .service-gallery figure:hover,.service-gallery figure:hover img{transform:none!important}
 }
+
+/* Navegação por serviços de iPhone: mantém a identidade visual do catálogo. */
+.iphone-service-hub> .wrap > p{color:#606975;margin:-8px 0 24px}
+.iphone-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.iphone-service-link{position:relative;display:flex;flex-direction:column;gap:10px;min-height:168px;padding:22px 22px 44px;border:1px solid #e3e3df;border-radius:18px;background:#f5f5f2;text-decoration:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.iphone-service-link strong{font-size:19px;line-height:1.25;color:#101216}
+.iphone-service-link span:not(.iphone-service-arrow){font-size:13px;line-height:1.55;color:#4c5661}
+.iphone-service-arrow{position:absolute;right:20px;bottom:13px;color:#a77b00;font-size:25px;font-weight:800}
+.iphone-service-link:hover{transform:translateY(-3px);border-color:#e7b51c;box-shadow:0 12px 28px rgba(0,0,0,.08)}
+.iphone-service-link:focus-visible{outline:3px solid #f3bd20;outline-offset:3px}
+@media(max-width:900px){.iphone-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.iphone-service-grid{grid-template-columns:1fr}.iphone-service-link{min-height:145px}}
+@media(prefers-reduced-motion:reduce){.iphone-service-link{transition:none}.iphone-service-link:hover{transform:none}}
