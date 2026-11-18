@@ -457,3 +457,11 @@
 .service-guides--categorized .service-guides__contact{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:8px}
 .service-guides--categorized .service-guides__contact a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 16px;border-radius:10px;background:#f3bd20;color:#151515;font-weight:800;text-decoration:none}
 @media(max-width:600px){.service-guides--categorized details.service-guides__group>.service-guides__links{grid-template-columns:1fr;padding:0 16px 16px}.service-guides--categorized details.service-guides__group>summary{min-height:66px;padding:15px 16px;font-size:18px}.service-guides--categorized .service-guides__contact a{width:100%}}
+
+/* Cartões internos do acordeão: altura discretamente reduzida, toque confortável */
+.service-guides--categorized details.service-guides__group>.service-guides__links{gap:10px}
+.service-guides--categorized details.service-guides__group>.service-guides__links a{min-height:58px;padding:12px 15px;line-height:1.4}
+@media(max-width:600px){
+  .service-guides--categorized details.service-guides__group>.service-guides__links{gap:10px}
+  .service-guides--categorized details.service-guides__group>.service-guides__links a{min-height:58px;padding:12px 14px}
+}
