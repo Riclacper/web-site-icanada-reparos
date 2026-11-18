@@ -168,33 +168,6 @@
   }
 }
 
-@media (max-width: 680px) {
-  .floating-whatsapp {
-    right: 14px;
-    bottom: 14px;
-    width: 52px;
-    height: 52px;
-    min-width: 52px;
-    min-height: 52px;
-  }
-
-  .floating-whatsapp svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .back-to-top {
-    left: 14px;
-    bottom: 14px;
-    width: 44px;
-    height: 44px;
-  }
-
-  .back-to-top span {
-    font-size: 23px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .floating-whatsapp,
   .back-to-top,

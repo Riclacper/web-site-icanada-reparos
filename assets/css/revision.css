@@ -2,78 +2,6 @@
   --gold-text: #806006;
 }
 
-.relocation-banner[hidden] {
-  display: none;
-}
-
-.relocation-banner {
-  color: var(--ink);
-  background: var(--yellow);
-  border-bottom: 1px solid rgba(11, 13, 16, 0.15);
-}
-
-.relocation-banner__content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding-block: 20px;
-}
-
-.relocation-banner__copy {
-  display: grid;
-  min-width: 0;
-  gap: 6px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.relocation-banner__label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.relocation-banner__copy strong {
-  font-size: clamp(19px, 2.1vw, 26px);
-  line-height: 1.25;
-  text-wrap: balance;
-}
-
-.relocation-banner__link {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 46px;
-  padding: 12px 18px;
-  border-radius: 12px;
-  color: #ffffff;
-  background: var(--dark);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.relocation-banner__link:hover {
-  background: #272d35;
-}
-
-.relocation-banner__link:focus-visible {
-  outline: 3px solid var(--dark);
-  outline-offset: 4px;
-}
-
-@media (max-width: 680px) {
-  .relocation-banner__content {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-    padding-block: 18px;
-  }
-}
-
 .eyebrow {
   color: var(--gold-text);
 }
@@ -448,7 +376,6 @@
 .service-guides--categorized details.service-guides__group>summary::marker{content:""}
 .service-guides--categorized .service-guides__device-icon{display:block;flex:none;width:26px;height:26px;color:#f3bd20}
 .service-guides--categorized .service-guides__chevron{display:block;flex:none;margin-left:auto;width:11px;height:11px;border-right:2px solid #f3bd20;border-bottom:2px solid #f3bd20;transform:rotate(45deg)}
-.service-guides--categorized details[open]>.service-guides__group>summary .service-guides__chevron{transform:rotate(225deg)}
 .service-guides--categorized details.service-guides__group[open]>summary .service-guides__chevron{transform:rotate(225deg)}
 .service-guides--categorized details.service-guides__group>.service-guides__links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 20px 20px}
 .service-guides--categorized details.service-guides__group>.service-guides__links a{display:flex;align-items:center;justify-content:space-between;min-height:65px;padding:15px;border:1px solid #343b44;border-radius:11px;background:#22272e;color:#fff;text-decoration:none;font-size:14px;font-weight:700}
@@ -466,7 +393,7 @@
   .service-guides--categorized details.service-guides__group>.service-guides__links a{min-height:58px;padding:12px 14px}
 }
 
-/* Mantém a posição mobile dos botões acima das regras históricas. */
+/* Ajuste final de posição dos botões flutuantes no celular. */
 @media (max-width: 680px) {
   .floating-whatsapp { right: 12px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); padding: 0; }
 }
