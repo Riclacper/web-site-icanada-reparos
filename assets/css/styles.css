@@ -1343,3 +1343,23 @@ h2 {
 .service-guides__links a:focus-visible{outline:3px solid #f3bd20;outline-offset:3px}
 @media(max-width:1050px){.service-guides__links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:580px){.service-guides__links{grid-template-columns:1fr;gap:9px}.service-guides__links a{min-height:62px;padding:14px 16px}.service-guides{padding:20px}}
+
+/* Navegação por equipamento na página inicial */
+.service-guides--categorized{padding:clamp(22px,3vw,38px)}
+.service-guides--categorized .service-guides__groups{display:grid;gap:22px}
+.service-guides--categorized .service-guides__group{padding:22px;border-radius:18px;background:#101419;color:#fff}
+.service-guides--categorized .service-guides__group h4{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-size:20px;font-weight:800;color:#fff}
+.service-guides--categorized .service-guides__group h4 span{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(243,189,32,.35);border-radius:9px;color:#f3bd20;font-size:23px;line-height:1}
+.service-guides--categorized .service-guides__links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.service-guides--categorized .service-guides__links a{min-height:68px;padding:16px 18px;background:#22272e;border:1px solid #353b44;color:#fff;border-radius:12px;font-size:14px;line-height:1.4;box-shadow:none}
+.service-guides--categorized .service-guides__links a:hover{background:#2c333c;border-color:#f3bd20;transform:translateY(-2px)}
+.service-guides--categorized .service-guides__links a:focus-visible{outline:3px solid #f3bd20;outline-offset:3px}
+.service-guides--categorized .service-guides__links .service-guides__all{border-color:rgba(243,189,32,.6);color:#f5d572}
+.service-guides--categorized .service-guides__group--ipad .service-guides__links{grid-template-columns:minmax(0,1fr)}
+.service-guides--categorized .service-guides__contact{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px}
+.service-guides--categorized .service-guides__contact span{color:#4b5563;font-weight:650}
+.service-guides--categorized .service-guides__contact a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border-radius:11px;background:#f3bd20;color:#17130a;font-weight:800;text-decoration:none}
+.service-guides--categorized .service-guides__contact a:hover{background:#e6b019}
+.service-guides--categorized .service-guides__contact a:focus-visible{outline:3px solid #111;outline-offset:3px}
+@media(max-width:580px){.service-guides--categorized .service-guides__group{padding:18px}.service-guides--categorized .service-guides__links{grid-template-columns:1fr;gap:10px}.service-guides--categorized .service-guides__links a{min-height:62px}.service-guides--categorized .service-guides__contact{align-items:stretch}.service-guides--categorized .service-guides__contact a{width:100%}}
+@media(prefers-reduced-motion:reduce){.service-guides--categorized .service-guides__links a{transition:none}.service-guides--categorized .service-guides__links a:hover{transform:none}}
